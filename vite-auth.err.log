@@ -1,0 +1,84 @@
+[2m16:36:26[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/auth/captcha[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m16:36:26[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/auth/captcha[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:31:44[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/auth/captcha[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:35:26[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:35:26[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:39:56[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:39:56[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:44:01[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:44:01[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:51:55[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:51:55[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:57:07[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m17:57:07[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m20:03:33[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m20:03:33[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m22:15:38[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/mbti/questions[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m22:15:40[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m22:15:40[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m22:15:42[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/personalities[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m22:15:44[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m22:15:44[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)

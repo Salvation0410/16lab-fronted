@@ -1,33 +1,21 @@
 <template>
-  <section>
-    <div class="page-header">
-      <div>
-        <h1 class="page-title">后台总览</h1>
-        <p class="muted">社区核心数据和待处理事项</p>
-      </div>
+  <section class="section-stack">
+    <div>
+      <h1 class="page-title">后台总览</h1>
+      <p class="page-subtitle">这是静态管理台示例，方便先验证页面和路由。</p>
     </div>
-    <div class="stat-grid">
-      <div v-for="item in stats" :key="item.label" class="stat-card">
-        <span class="muted">{{ item.label }}</span>
-        <div class="stat-value">{{ item.value }}</div>
-      </div>
-    </div>
+
+    <el-row :gutter="16">
+      <el-col v-for="item in adminStats" :key="item.label" :xs="24" :sm="12" :lg="6">
+        <el-card shadow="never">
+          <el-statistic :title="item.label" :value="item.value" />
+          <el-tag type="success" effect="plain">{{ item.trend }}</el-tag>
+        </el-card>
+      </el-col>
+    </el-row>
   </section>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import { adminApi } from '../../api'
-
-const raw = ref({})
-const stats = computed(() => [
-  { label: '用户数', value: raw.value.userCount ?? 0 },
-  { label: '帖子数', value: raw.value.postCount ?? 0 },
-  { label: '评论数', value: raw.value.commentCount ?? 0 },
-  { label: 'AI会话', value: raw.value.aiConversationCount ?? 0 }
-])
-
-onMounted(async () => {
-  raw.value = await adminApi.statistics()
-})
+import { adminStats } from '../../data/mockData'
 </script>

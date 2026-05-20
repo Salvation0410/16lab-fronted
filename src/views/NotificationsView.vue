@@ -1,54 +1,54 @@
 <template>
-  <section class="panel">
-    <div class="page-header">
+  <section class="page-wrap section-stack">
+    <div class="panel-head">
       <div>
         <h1 class="page-title">消息中心</h1>
-        <p class="muted">点赞、收藏、关注、评论和系统通知</p>
+        <p class="page-subtitle">点赞、回复和系统消息都放在这里。</p>
       </div>
-      <button class="ghost-button" @click="readAll">全部已读</button>
+      <el-button type="primary" plain @click="markAllRead">全部已读</el-button>
     </div>
-    <div class="list">
-      <div v-for="item in notifications" :key="item.id" class="list-item notification-item">
-        <div>
-          <strong>{{ item.title }}</strong>
-          <p>{{ item.content }}</p>
-          <span class="muted">{{ item.type }} · {{ item.createTime }}</span>
-        </div>
-        <button v-if="item.isRead === 0" class="plain-button" @click="read(item.id)">已读</button>
-      </div>
-    </div>
+
+    <el-card shadow="never">
+      <el-timeline>
+        <el-timeline-item
+          v-for="item in localNotifications"
+          :key="item.id"
+          :type="item.read ? 'info' : 'primary'"
+          :timestamp="item.time"
+        >
+          <div class="notice-item">
+            <div>
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.content }}</p>
+            </div>
+            <el-button v-if="!item.read" size="small" @click="item.read = true">标为已读</el-button>
+          </div>
+        </el-timeline-item>
+      </el-timeline>
+    </el-card>
   </section>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { notificationApi } from '../api'
+import { ref } from 'vue'
+import { notifications } from '../data/mockData'
 
-const notifications = ref([])
+const localNotifications = ref(notifications.map((item) => ({ ...item })))
 
-async function load() {
-  const data = await notificationApi.list({ page: 1, size: 50 })
-  notifications.value = data.list
+function markAllRead() {
+  localNotifications.value = localNotifications.value.map((item) => ({ ...item, read: true }))
 }
-
-async function read(id) {
-  await notificationApi.read(id)
-  await load()
-}
-
-async function readAll() {
-  await notificationApi.readAll()
-  await load()
-}
-
-onMounted(load)
 </script>
 
 <style scoped>
-.notification-item {
+.notice-item {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
+}
+
+.notice-item p {
+  margin: 8px 0 0;
+  color: var(--lab-muted);
 }
 </style>

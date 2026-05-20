@@ -1,129 +1,107 @@
 <template>
-  <section class="panel test-panel">
-    <div class="page-header">
-      <div>
-        <h1 class="page-title">18题 MBTI 简测</h1>
-        <p class="muted">四个维度快速分析，结果可保存到个人主页</p>
-      </div>
-      <span class="tag">{{ answeredCount }}/{{ questions.length }}</span>
-    </div>
+  <section class="page-wrap page-grid">
+    <main class="section-stack">
+      <el-card shadow="never">
+        <template #header>
+          <div class="panel-head">
+            <div>
+              <h1 class="page-title">MBTI 测试</h1>
+              <p class="page-subtitle">别急着追求标准答案，选更像现在的你。</p>
+            </div>
+            <el-progress type="circle" :width="72" :percentage="progress" />
+          </div>
+        </template>
 
-    <form v-if="!result" class="form-stack" @submit.prevent="submit">
-      <div v-for="question in questions" :key="question.id" class="question-block">
-        <strong>{{ question.sortOrder }}. {{ question.title }}</strong>
-        <div class="option-grid">
-          <label v-for="option in question.options" :key="option.id" class="option-item">
-            <input v-model="answers[question.id]" type="radio" :value="option.id" />
-            <span>{{ option.content }}</span>
-          </label>
-        </div>
-      </div>
-      <button class="primary-button" type="submit">提交测试</button>
-    </form>
+        <template v-if="!result">
+          <h2>{{ activeQuestion.title }}</h2>
+          <el-radio-group v-model="answers[activeQuestion.id]" class="answer-list">
+            <el-radio-button v-for="option in activeQuestion.options" :key="option.id" :label="option.id">
+              {{ option.label }}. {{ option.content }}
+            </el-radio-button>
+          </el-radio-group>
+          <div class="test-actions">
+            <el-button :disabled="index === 0" @click="index -= 1">上一题</el-button>
+            <el-button type="primary" @click="next">{{ isLast ? '查看结果' : '下一题' }}</el-button>
+          </div>
+        </template>
 
-    <div v-else class="result-panel">
-      <h2>你的结果：{{ result.resultMbti }}</h2>
-      <div class="dimension-grid">
-        <div v-for="(value, key) in result.dimensions" :key="key" class="dimension-item">
-          <span>{{ key }}</span>
-          <div><i :style="{ width: `${value}%` }"></i></div>
-          <strong>{{ value }}%</strong>
+        <template v-else>
+          <el-result icon="success" title="INTJ-A" sub-title="你更像一个偏长期规划、独立判断的人。">
+            <template #extra>
+              <el-button type="primary" @click="$router.push('/personalities/INTJ')">查看详情</el-button>
+              <el-button @click="restart">重新测试</el-button>
+            </template>
+          </el-result>
+        </template>
+      </el-card>
+    </main>
+
+    <aside class="section-stack">
+      <el-card shadow="never">
+        <template #header>答题卡</template>
+        <div class="sheet-grid">
+          <el-button
+            v-for="(question, questionIndex) in mbtiQuestions"
+            :key="question.id"
+            :type="answers[question.id] ? 'primary' : 'default'"
+            @click="index = questionIndex"
+          >
+            {{ questionIndex + 1 }}
+          </el-button>
         </div>
-      </div>
-      <button class="primary-button" @click="saveResult">保存到个人主页</button>
-    </div>
+      </el-card>
+    </aside>
   </section>
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { mbtiApi } from '../api'
-import { useAuthStore } from '../stores/auth'
+import { computed, reactive, ref } from 'vue'
+import { mbtiQuestions } from '../data/mockData'
 
-const router = useRouter()
-const auth = useAuthStore()
-const questions = ref([])
+const index = ref(0)
+const result = ref(false)
 const answers = reactive({})
-const result = ref(null)
-const answeredCount = computed(() => Object.keys(answers).length)
+const activeQuestion = computed(() => mbtiQuestions[index.value])
+const isLast = computed(() => index.value === mbtiQuestions.length - 1)
+const progress = computed(() => Math.round((Object.keys(answers).length / mbtiQuestions.length) * 100))
 
-async function submit() {
-  result.value = await mbtiApi.submit({
-    answers: questions.value.map((question) => ({
-      questionId: question.id,
-      optionId: answers[question.id]
-    }))
-  })
+function next() {
+  if (!isLast.value) index.value += 1
+  else result.value = true
 }
 
-async function saveResult() {
-  if (!auth.isLoggedIn) return router.push('/login')
-  await mbtiApi.save(result.value.recordId)
-  router.push(`/users/${auth.user.userId}`)
+function restart() {
+  Object.keys(answers).forEach((key) => delete answers[key])
+  index.value = 0
+  result.value = false
 }
-
-onMounted(async () => {
-  questions.value = await mbtiApi.questions()
-})
 </script>
 
 <style scoped>
-.test-panel {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.question-block {
-  padding: 16px;
-  border: 1px solid #e6e9f0;
-  border-radius: 8px;
-}
-
-.option-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.option-item {
-  display: flex;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid #d9dde6;
-  border-radius: 8px;
-}
-
-.dimension-grid {
+.answer-list {
   display: grid;
   gap: 12px;
-  margin: 18px 0;
+  margin: 22px 0;
 }
 
-.dimension-item {
+.answer-list :deep(.el-radio-button__inner) {
+  width: 100%;
+  justify-content: flex-start;
+  border-left: 1px solid var(--el-border-color);
+  border-radius: 8px;
+  padding: 14px 16px;
+  white-space: normal;
+  text-align: left;
+}
+
+.test-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sheet-grid {
   display: grid;
-  grid-template-columns: 30px 1fr 52px;
-  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-}
-
-.dimension-item div {
-  height: 10px;
-  background: #eef1f6;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.dimension-item i {
-  display: block;
-  height: 100%;
-  background: #ef4f6d;
-}
-
-@media (max-width: 620px) {
-  .option-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

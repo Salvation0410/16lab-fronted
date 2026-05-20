@@ -1,56 +1,67 @@
 import { defineStore } from 'pinia'
-import { authApi } from '../api'
+import { currentUser } from '../data/mockData'
 
 const savedUser = localStorage.getItem('lab16_user')
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem('lab16_token') || '',
-    user: savedUser ? JSON.parse(savedUser) : null
+    token: localStorage.getItem('lab16_token') || 'mock-token',
+    user: savedUser ? JSON.parse(savedUser) : currentUser
   }),
   getters: {
     isLoggedIn: (state) => Boolean(state.token),
     isAdmin: (state) => state.user?.role === 'ADMIN'
   },
   actions: {
-    setSession(data) {
-      this.token = data.token
-      this.user = data
-      localStorage.setItem('lab16_token', data.token)
-      localStorage.setItem('lab16_user', JSON.stringify(data))
+    setSession(data = {}) {
+      this.token = data.token || 'mock-token'
+      this.user = { ...currentUser, ...data }
+      localStorage.setItem('lab16_token', this.token)
+      localStorage.setItem('lab16_user', JSON.stringify(this.user))
     },
-    async login(payload) {
-      const data = await authApi.passwordLogin(payload)
-      this.setSession(data)
-      return data
+    async login(payload = {}) {
+      this.setSession({
+        username: payload.account || payload.email || currentUser.username,
+        nickname: payload.account || '小海盐'
+      })
+      return this.user
     },
-    async emailLogin(payload) {
-      const data = await authApi.emailLogin(payload)
-      this.setSession(data)
-      return data
+    async emailLogin(payload = {}) {
+      this.setSession({
+        username: payload.email || currentUser.username,
+        nickname: '邮箱用户'
+      })
+      return this.user
     },
-    async registerByPassword(payload) {
-      const data = await authApi.registerByPassword(payload)
-      if (data?.token) this.setSession(data)
-      return data
+    async registerByPassword(payload = {}) {
+      this.setSession({
+        username: payload.account || currentUser.username,
+        nickname: payload.nickname || '新朋友'
+      })
+      return this.user
     },
-    async registerByEmail(payload) {
-      const data = await authApi.registerByEmail(payload)
-      if (data?.token) this.setSession(data)
-      return data
+    async registerByEmail(payload = {}) {
+      this.setSession({
+        username: payload.email || currentUser.username,
+        nickname: payload.nickname || '新朋友'
+      })
+      return this.user
     },
     async refreshMe() {
-      if (!this.token) return null
-      const data = await authApi.me()
-      this.user = { ...this.user, ...data }
-      localStorage.setItem('lab16_user', JSON.stringify(this.user))
-      return data
+      return this.user
     },
     logout() {
       this.token = ''
       this.user = null
       localStorage.removeItem('lab16_token')
       localStorage.removeItem('lab16_user')
+    },
+    useMockAdmin() {
+      this.setSession({
+        ...currentUser,
+        role: 'ADMIN',
+        nickname: '内容管理员'
+      })
     }
   }
 })

@@ -11,6 +11,7 @@ import LoginView from '../views/LoginView.vue'
 import UserProfileView from '../views/UserProfileView.vue'
 import MbtiTestView from '../views/MbtiTestView.vue'
 import PersonalitiesView from '../views/PersonalitiesView.vue'
+import PersonalityDetailView from '../views/PersonalityDetailView.vue'
 import SearchView from '../views/SearchView.vue'
 import NotificationsView from '../views/NotificationsView.vue'
 import AiChatView from '../views/AiChatView.vue'
@@ -32,6 +33,7 @@ const routes = [
       { path: 'users/:id', name: 'user-profile', component: UserProfileView },
       { path: 'mbti-test', name: 'mbti-test', component: MbtiTestView },
       { path: 'personalities', name: 'personalities', component: PersonalitiesView },
+      { path: 'personalities/:code', name: 'personality-detail', component: PersonalityDetailView },
       { path: 'ai', name: 'ai-chat', component: AiChatView, meta: { auth: true } },
       { path: 'notifications', name: 'notifications', component: NotificationsView, meta: { auth: true } }
     ]

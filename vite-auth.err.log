@@ -82,3 +82,23 @@ AggregateError [ECONNREFUSED]:
 AggregateError [ECONNREFUSED]: 
     at internalConnectMultiple (node:net:1139:18)
     at afterConnectMultiple (node:net:1712:7)
+[2m08:33:23[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities/1[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m08:33:23[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m08:33:23[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities/1/posts?sort=hot&page=1&size=20[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m08:43:14[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/posts/hot?page=1&size=8[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)
+[2m08:43:14[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities?type=MBTI[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)

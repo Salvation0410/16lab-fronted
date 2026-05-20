@@ -1,0 +1,4 @@
+[2m15:36:13[22m [31m[1m[vite][22m[39m [31mhttp proxy error: /api/communities[39m
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1139:18)
+    at afterConnectMultiple (node:net:1712:7)

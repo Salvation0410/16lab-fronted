@@ -2,11 +2,8 @@
   <el-container class="app-shell">
     <el-header class="top-nav" height="74px">
       <RouterLink class="brand-lockup" to="/" aria-label="16Lab 首页">
-        <span class="brand-mark">16</span>
-        <span>
-          <strong>16Lab</strong>
-          <small>MBTI 社区</small>
-        </span>
+        <strong>16Lab</strong>
+        <small>MBTI 社区</small>
       </RouterLink>
 
       <el-menu
@@ -28,7 +25,7 @@
       <el-input
         v-model.trim="keyword"
         class="nav-search"
-        placeholder="搜索人格 / 帖子 / 用户"
+        placeholder="搜索帖子、用户、社区或话题"
         clearable
         @keyup.enter="submitSearch"
       >
@@ -44,9 +41,12 @@
         <el-tooltip content="通知" placement="bottom">
           <el-button circle :icon="Bell" @click="goNotifications" />
         </el-tooltip>
+        <el-tooltip content="私信" placement="bottom">
+          <el-button circle :icon="Message" @click="router.push('/notifications')" />
+        </el-tooltip>
         <el-dropdown trigger="click">
           <button class="avatar-button" type="button">
-            <el-avatar :size="38">{{ avatarText }}</el-avatar>
+            <el-avatar :size="38" :src="avatarUrl">{{ avatarText }}</el-avatar>
             <el-icon><ArrowDown /></el-icon>
           </button>
           <template #dropdown>
@@ -69,7 +69,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
-import { ArrowDown, Bell, EditPen, Search } from '@element-plus/icons-vue'
+import { ArrowDown, Bell, EditPen, Message, Search } from '@element-plus/icons-vue'
 import { useAuthStore } from '../stores/auth'
 
 const auth = useAuthStore()
@@ -79,12 +79,10 @@ const keyword = ref(String(route.query.q || ''))
 
 const navItems = [
   { label: '首页', to: '/' },
-  { label: '人格图鉴', to: '/personalities' },
+  { label: '发现', to: '/personalities' },
   { label: '社区', to: '/square' },
   { label: '测试', to: '/mbti-test' },
-  { label: 'AI 陪聊', to: '/ai' },
-  { label: '文章', to: '/search' },
-  { label: '活动', to: '/notifications' }
+  { label: 'AI 陪聊', to: '/ai' }
 ]
 
 const activePath = computed(() => {
@@ -96,6 +94,7 @@ const activePath = computed(() => {
 const publishTarget = computed(() => (auth.isLoggedIn ? '/create' : `/login?redirect=${encodeURIComponent(route.fullPath)}`))
 const profileTarget = computed(() => `/users/${auth.user?.id || 16}`)
 const avatarText = computed(() => String(auth.user?.nickname || '16').slice(0, 2).toUpperCase())
+const avatarUrl = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80'
 
 function submitSearch() {
   router.push({ path: '/search', query: keyword.value ? { q: keyword.value } : {} })
@@ -123,48 +122,32 @@ watch(
   top: 0;
   z-index: 30;
   display: grid;
-  grid-template-columns: auto minmax(460px, 1fr) minmax(220px, 320px) auto;
-  gap: 20px;
+  grid-template-columns: auto minmax(380px, 1fr) minmax(260px, 360px) auto;
+  gap: 22px;
   align-items: center;
   border-bottom: 1px solid rgba(218, 228, 240, .86);
   background: rgba(255, 255, 255, .92);
   backdrop-filter: blur(18px);
-  box-shadow: 0 12px 30px rgba(40, 62, 95, .06);
+  box-shadow: 0 14px 32px rgba(40, 62, 95, .05);
 }
 
 .brand-lockup {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-width: 130px;
-}
-
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: #fff;
-  background: linear-gradient(145deg, #2f80ed, #ff7b62);
-  font-weight: 900;
-}
-
-.brand-lockup strong,
-.brand-lockup small {
-  display: block;
+  gap: 12px;
+  min-width: 168px;
 }
 
 .brand-lockup strong {
   color: #101b33;
-  font-size: 21px;
+  font-size: 28px;
   line-height: 1;
+  letter-spacing: -1px;
 }
 
 .brand-lockup small {
-  margin-top: 3px;
   color: #6f7f96;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
 }
 
@@ -175,11 +158,37 @@ watch(
 }
 
 .nav-menu :deep(.el-menu-item) {
+  height: 74px;
+  color: #18243d;
   font-weight: 800;
+  border-bottom: 0;
+}
+
+.nav-menu :deep(.el-menu-item.is-active) {
+  color: #ff5f50;
+}
+
+.nav-menu :deep(.el-menu-item.is-active::after) {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 9px;
+  width: 28px;
+  height: 2px;
+  border-radius: 999px;
+  background: #ff5f50;
+  transform: translateX(-50%);
 }
 
 .nav-search {
   min-width: 0;
+}
+
+.nav-search :deep(.el-input__wrapper) {
+  min-height: 42px;
+  border-radius: 18px;
+  background: #f5f8fc;
+  box-shadow: inset 0 0 0 1px rgba(223, 231, 242, .85);
 }
 
 .nav-actions {
@@ -187,6 +196,14 @@ watch(
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.nav-actions > .el-button--primary {
+  min-width: 104px;
+  --el-button-bg-color: #ff6657;
+  --el-button-border-color: #ff6657;
+  --el-button-hover-bg-color: #f25546;
+  --el-button-hover-border-color: #f25546;
 }
 
 .avatar-button {
